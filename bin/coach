@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require "slop"
+require "coach/cli/provider_finder"
+
+# TODO: Figure out how to nicely detect that we're in a Rails app
+# Right now this will break if we aren't
+require File.join(Dir.pwd, "config/environment")
+
+Slop.parse do
+  command "find-provider" do
+    run do |_, args|
+      unless args.length == 2
+        raise "Two args please!"
+      end
+      Coach::Cli::ProviderFinder.new(args[0], args[1]).run
+    end
+  end
+end
